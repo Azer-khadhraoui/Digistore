@@ -35,10 +35,42 @@ const SellPage: React.FC = () => {
   // Fonction pour convertir un fichier en URL base64
   const fileToBase64 = (file: File): Promise<string> => {
     return new Promise((resolve, reject) => {
+      console.log('Converting file to base64:', file.name, file.size, 'bytes');
+      
+      if (!file) {
+        reject(new Error('No file provided'));
+        return;
+      }
+
+      if (file.size > 5 * 1024 * 1024) { // 5MB limit
+        reject(new Error('File too large (max 5MB)'));
+        return;
+      }
+
       const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result as string);
-      reader.onerror = error => reject(error);
+      
+      reader.onload = (event) => {
+        const result = event.target?.result as string;
+        console.log('File conversion successful, result length:', result?.length);
+        resolve(result);
+      };
+      
+      reader.onerror = (error) => {
+        console.error('File conversion failed:', error);
+        reject(new Error('Failed to read file'));
+      };
+      
+      reader.onabort = () => {
+        console.error('File conversion aborted');
+        reject(new Error('File reading aborted'));
+      };
+
+      try {
+        reader.readAsDataURL(file);
+      } catch (error) {
+        console.error('Error starting file read:', error);
+        reject(error);
+      }
     });
   };
 
@@ -64,26 +96,34 @@ const SellPage: React.FC = () => {
     e.preventDefault();
     setIsSubmitting(true);
     
+    console.log('Form submission started');
+    console.log('Form data:', formData);
+    
     try {
       // Validation des champs requis
       if (!formData.productTitle || !formData.productDescription || !formData.productCategory || 
           !formData.productPrice || !formData.productImage || !formData.sellerName || 
           !formData.sellerEmail) {
+        console.log('Validation failed - missing fields');
         alert('Veuillez remplir tous les champs obligatoires.');
         setIsSubmitting(false);
         return;
       }
 
+      console.log('Validation passed, converting image...');
+
       // Conversion de l'image en base64
-      let imageUrl = '';
+      let imageUrl = 'https://via.placeholder.com/400x300?text=Image+Non+Disponible'; // Image par défaut
       if (formData.productImage) {
         try {
+          console.log('Starting image conversion for:', formData.productImage.name);
           imageUrl = await fileToBase64(formData.productImage);
+          console.log('Image converted successfully, size:', imageUrl.length);
         } catch (error) {
           console.error('Erreur lors de la conversion de l\'image:', error);
-          alert('Erreur lors du traitement de l\'image. Veuillez réessayer.');
-          setIsSubmitting(false);
-          return;
+          // On continue avec l'image par défaut au lieu d'arrêter
+          console.log('Using default placeholder image');
+          alert('Attention: L\'image n\'a pas pu être traitée, une image par défaut sera utilisée.');
         }
       }
 
@@ -97,8 +137,12 @@ const SellPage: React.FC = () => {
         author: formData.sellerName
       };
 
+      console.log('Adding product:', newProduct);
+
       // Ajout du produit
       addProduct(newProduct);
+      
+      console.log('Product added successfully');
 
       // Simulation d'un délai pour l'expérience utilisateur
       setTimeout(() => {
@@ -125,6 +169,7 @@ const SellPage: React.FC = () => {
         });
         setCurrentStep(1);
         
+        console.log('Navigating to products page...');
         // Redirection vers la page des produits
         navigate('/produits');
       }, 1500);

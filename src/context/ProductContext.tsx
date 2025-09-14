@@ -167,13 +167,39 @@ export const ProductProvider: React.FC<{ children: ReactNode }> = ({ children })
   // Sauvegarder dans localStorage à chaque changement
   const saveToLocalStorage = (newProducts: Product[]) => {
     try {
-      localStorage.setItem('digistore-products', JSON.stringify(newProducts));
+      console.log('Saving to localStorage:', newProducts.length, 'products');
+      const dataToSave = JSON.stringify(newProducts);
+      
+      // Vérifier la taille des données
+      const dataSize = new Blob([dataToSave]).size;
+      console.log('Data size to save:', dataSize, 'bytes');
+      
+      if (dataSize > 4 * 1024 * 1024) { // 4MB limit
+        console.warn('Data too large for localStorage, reducing...');
+        // Garder seulement les 50 derniers produits si trop volumineux
+        const reducedProducts = newProducts.slice(-50);
+        localStorage.setItem('digistore-products', JSON.stringify(reducedProducts));
+        console.log('Saved reduced data set');
+      } else {
+        localStorage.setItem('digistore-products', dataToSave);
+        console.log('Successfully saved to localStorage');
+      }
     } catch (error) {
       console.error('Erreur lors de la sauvegarde:', error);
+      // Essayer de nettoyer le localStorage et réessayer
+      try {
+        localStorage.removeItem('digistore-products');
+        localStorage.setItem('digistore-products', JSON.stringify(newProducts.slice(-10)));
+        console.log('Cleaned localStorage and saved reduced data');
+      } catch (cleanError) {
+        console.error('Failed to clean and save:', cleanError);
+      }
     }
   };
 
   const addProduct = (productData: Omit<Product, 'id' | 'rating' | 'reviewCount' | 'createdAt'>) => {
+    console.log('ProductContext: Adding product', productData);
+    
     const newProduct: Product = {
       ...productData,
       id: Math.max(...products.map(p => p.id), 0) + 1,
@@ -183,9 +209,15 @@ export const ProductProvider: React.FC<{ children: ReactNode }> = ({ children })
       badge: 'Nouveau'
     };
 
+    console.log('ProductContext: New product created', newProduct);
+
     const updatedProducts = [...products, newProduct];
+    console.log('ProductContext: Updated products array', updatedProducts);
+    
     setProducts(updatedProducts);
     saveToLocalStorage(updatedProducts);
+    
+    console.log('ProductContext: Product added and saved');
   };
 
   const removeProduct = (id: number) => {

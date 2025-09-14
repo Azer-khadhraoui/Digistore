@@ -8,6 +8,9 @@ const Products: React.FC = () => {
   const [sortBy, setSortBy] = useState('popular');
   const [searchTerm, setSearchTerm] = useState('');
 
+  console.log('Products component: Current products count:', products.length);
+  console.log('Products component: Products:', products);
+
   const categories = [
     { id: 'all', name: 'Tous les produits' },
     { id: 'cours', name: 'Cours en ligne' },
