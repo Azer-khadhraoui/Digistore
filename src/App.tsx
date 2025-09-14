@@ -6,20 +6,23 @@ import Footer from './components/Footer';
 import Home from './pages/Home';
 import ProductsPage from './pages/ProductsPage';
 import SellPage from './pages/SellPage';
+import { ProductProvider } from './context/ProductContext';
 
 function App() {
   return (
-    <Router>
-      <div className="App">
-        <Header />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/produits" element={<ProductsPage />} />
-          <Route path="/vendre" element={<SellPage />} />
-        </Routes>
-        <Footer />
-      </div>
-    </Router>
+    <ProductProvider>
+      <Router>
+        <div className="App">
+          <Header />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/produits" element={<ProductsPage />} />
+            <Route path="/vendre" element={<SellPage />} />
+          </Routes>
+          <Footer />
+        </div>
+      </Router>
+    </ProductProvider>
   );
 }
 

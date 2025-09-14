@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './SellPage.css';
+import { useProducts } from '../context/ProductContext';
 
 const SellPage: React.FC = () => {
+  const { addProduct } = useProducts();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     // Informations produit
     productTitle: '',
@@ -28,6 +32,16 @@ const SellPage: React.FC = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // Fonction pour convertir un fichier en URL base64
+  const fileToBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = error => reject(error);
+    });
+  };
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -50,29 +64,76 @@ const SellPage: React.FC = () => {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Simulation d'envoi
-    setTimeout(() => {
-      alert('Votre produit a été soumis avec succès ! Nous vous contacterons sous 24h.');
+    try {
+      // Validation des champs requis
+      if (!formData.productTitle || !formData.productDescription || !formData.productCategory || 
+          !formData.productPrice || !formData.productImage || !formData.sellerName || 
+          !formData.sellerEmail) {
+        alert('Veuillez remplir tous les champs obligatoires.');
+        setIsSubmitting(false);
+        return;
+      }
+
+      // Conversion de l'image en base64
+      let imageUrl = '';
+      if (formData.productImage) {
+        try {
+          imageUrl = await fileToBase64(formData.productImage);
+        } catch (error) {
+          console.error('Erreur lors de la conversion de l\'image:', error);
+          alert('Erreur lors du traitement de l\'image. Veuillez réessayer.');
+          setIsSubmitting(false);
+          return;
+        }
+      }
+
+      // Création du nouveau produit
+      const newProduct = {
+        title: formData.productTitle,
+        description: formData.productDescription,
+        category: formData.productCategory,
+        price: parseFloat(formData.productPrice),
+        image: imageUrl,
+        author: formData.sellerName
+      };
+
+      // Ajout du produit
+      addProduct(newProduct);
+
+      // Simulation d'un délai pour l'expérience utilisateur
+      setTimeout(() => {
+        alert('Votre produit a été publié avec succès ! Il est maintenant visible dans la liste des produits.');
+        setIsSubmitting(false);
+        
+        // Réinitialisation du formulaire
+        setFormData({
+          productTitle: '',
+          productDescription: '',
+          productCategory: '',
+          productPrice: '',
+          productFile: null,
+          productImage: null,
+          sellerName: '',
+          sellerEmail: '',
+          sellerPhone: '',
+          sellerAddress: '',
+          sellerCity: '',
+          sellerPostalCode: '',
+          bankName: '',
+          iban: '',
+          paypalEmail: ''
+        });
+        setCurrentStep(1);
+        
+        // Redirection vers la page des produits
+        navigate('/produits');
+      }, 1500);
+
+    } catch (error) {
+      console.error('Erreur lors de la soumission:', error);
+      alert('Une erreur est survenue. Veuillez réessayer.');
       setIsSubmitting(false);
-      setFormData({
-        productTitle: '',
-        productDescription: '',
-        productCategory: '',
-        productPrice: '',
-        productFile: null,
-        productImage: null,
-        sellerName: '',
-        sellerEmail: '',
-        sellerPhone: '',
-        sellerAddress: '',
-        sellerCity: '',
-        sellerPostalCode: '',
-        bankName: '',
-        iban: '',
-        paypalEmail: ''
-      });
-      setCurrentStep(1);
-    }, 2000);
+    }
   };
 
   const nextStep = () => {
@@ -183,6 +244,21 @@ const SellPage: React.FC = () => {
                   required
                 />
                 <small>Format JPG, PNG. Taille recommandée: 800x600px</small>
+                {formData.productImage && (
+                  <div className="image-preview">
+                    <img 
+                      src={URL.createObjectURL(formData.productImage)} 
+                      alt="Aperçu du produit" 
+                      style={{ 
+                        maxWidth: '200px', 
+                        maxHeight: '150px', 
+                        marginTop: '10px',
+                        border: '1px solid #ddd',
+                        borderRadius: '4px'
+                      }} 
+                    />
+                  </div>
+                )}
               </div>
 
               <div className="form-group">
