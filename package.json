@@ -1,7 +1,7 @@
 {
   "name": "education-web",
   "version": "0.1.0",
-  "homepage": "https://USERNAME.github.io/digistore-marketplace",
+  "homepage": "https://azerkhadhraoui.github.io/digistore-marketplace",
   "private": true,
   "dependencies": {
     "@testing-library/dom": "^10.4.1",
