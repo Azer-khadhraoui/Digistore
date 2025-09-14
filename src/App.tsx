@@ -1,20 +1,25 @@
 import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 import Header from './components/Header';
-import Hero from './components/Hero';
-import FeaturedProducts from './components/FeaturedCourses';
-import Features from './components/Features';
 import Footer from './components/Footer';
+import Home from './pages/Home';
+import ProductsPage from './pages/ProductsPage';
+import SellPage from './pages/SellPage';
 
 function App() {
   return (
-    <div className="App">
-      <Header />
-      <Hero />
-      <FeaturedProducts />
-      <Features />
-      <Footer />
-    </div>
+    <Router>
+      <div className="App">
+        <Header />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/produits" element={<ProductsPage />} />
+          <Route path="/vendre" element={<SellPage />} />
+        </Routes>
+        <Footer />
+      </div>
+    </Router>
   );
 }
 

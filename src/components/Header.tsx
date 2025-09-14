@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import './Header.css';
 import logo from '../logo.png';
 
@@ -18,18 +19,11 @@ const Header: React.FC = () => {
         
         <nav className={`nav ${isMenuOpen ? 'nav-open' : ''}`}>
           <ul className="nav-links">
-            <li><a href="#accueil">Accueil</a></li>
-            <li><a href="#produits">Produits</a></li>
-            <li><a href="#categories">Catégories</a></li>
-            <li><a href="#devenir-vendeur">Devenir Vendeur</a></li>
-            <li><a href="#contact">Contact</a></li>
+            <li><Link to="/">Accueil</Link></li>
+            <li><Link to="/produits">Produits</Link></li>
+            <li><Link to="/vendre">Vendre</Link></li>
           </ul>
         </nav>
-
-        <div className="auth-buttons">
-          <button className="btn-secondary">Connexion</button>
-          <button className="btn-primary">Inscription</button>
-        </div>
 
         <button 
           className="menu-toggle"
