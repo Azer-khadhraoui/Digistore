@@ -24,8 +24,33 @@ const ProductPreviewModal: React.FC<ProductPreviewModalProps> = ({ product, isOp
       // Incrémenter le compteur de téléchargements
       incrementDownloadCount(product.id);
       
-      // Créer un fichier de démonstration à télécharger
-      const fileContent = `=== ${product.title} ===
+      // Télécharger le vrai fichier du produit
+      if (product.productFile && product.productFileName) {
+        try {
+          // Créer un lien de téléchargement avec le fichier réel
+          const link = document.createElement('a');
+          link.href = product.productFile;
+          link.download = product.productFileName;
+          
+          // Ajouter le lien au DOM, cliquer, puis le supprimer
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          
+          alert(`✅ Téléchargement de "${product.productFileName}" réussi !\n\nCe produit a été téléchargé ${(purchasedProduct?.downloadCount || 0) + 1} fois sur ${purchasedProduct?.maxDownloads || 10} autorisées.`);
+          
+          console.log('Téléchargement du fichier réel:', {
+            product: product.title,
+            fileName: product.productFileName,
+            downloadCount: (purchasedProduct?.downloadCount || 0) + 1
+          });
+        } catch (error) {
+          console.error('Erreur lors du téléchargement:', error);
+          alert('Erreur lors du téléchargement du fichier. Veuillez réessayer.');
+        }
+      } else {
+        // Fallback: créer un fichier de démonstration si pas de fichier réel
+        const fileContent = `=== ${product.title} ===
 
 Félicitations ! Vous avez acheté ce produit sur DigiStore.
 
@@ -40,7 +65,7 @@ Description:
 ${product.description}
 
 Ce fichier est une démonstration du système de téléchargement.
-En production, ceci serait remplacé par le vrai contenu du produit.
+Le fichier original n'était pas disponible.
 
 Date de téléchargement: ${new Date().toLocaleString('fr-FR')}
 Téléchargements restants: ${(purchasedProduct?.maxDownloads || 10) - (purchasedProduct?.downloadCount || 0) - 1}
@@ -48,27 +73,28 @@ Téléchargements restants: ${(purchasedProduct?.maxDownloads || 10) - (purchase
 Merci d'avoir choisi DigiStore !
 `;
 
-      // Créer et télécharger le fichier
-      const blob = new Blob([fileContent], { type: 'text/plain;charset=utf-8' });
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = `${product.title.replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '_')}.txt`;
-      
-      // Déclencher le téléchargement
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      window.URL.revokeObjectURL(url);
-      
-      // Message de confirmation
-      alert(`✅ Téléchargement de "${product.title}" réussi !\n\nCe produit a été téléchargé ${(purchasedProduct?.downloadCount || 0) + 1} fois sur ${purchasedProduct?.maxDownloads || 10} autorisées.`);
-      
-      console.log('Téléchargement réussi:', {
-        product: product.title,
-        downloadCount: (purchasedProduct?.downloadCount || 0) + 1,
-        remainingDownloads: (purchasedProduct?.maxDownloads || 10) - (purchasedProduct?.downloadCount || 0) - 1
-      });
+        // Créer et télécharger le fichier
+        const blob = new Blob([fileContent], { type: 'text/plain;charset=utf-8' });
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `${product.title.replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '_')}.txt`;
+        
+        // Déclencher le téléchargement
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(url);
+        
+        // Message de confirmation
+        alert(`✅ Téléchargement de "${product.title}" réussi !\n\nCe produit a été téléchargé ${(purchasedProduct?.downloadCount || 0) + 1} fois sur ${purchasedProduct?.maxDownloads || 10} autorisées.`);
+        
+        console.log('Téléchargement réussi (fallback):', {
+          product: product.title,
+          downloadCount: (purchasedProduct?.downloadCount || 0) + 1,
+          remainingDownloads: (purchasedProduct?.maxDownloads || 10) - (purchasedProduct?.downloadCount || 0) - 1
+        });
+      }
     }
   };
 
@@ -176,6 +202,9 @@ Merci d'avoir choisi DigiStore !
               <li>✅ Mises à jour gratuites</li>
               <li>✅ Support client premium</li>
               <li>✅ Garantie satisfait ou remboursé 30 jours</li>
+              {product.productFile && product.productFileName && (
+                <li>📄 Fichier inclus: {product.productFileName}</li>
+              )}
             </ul>
           </div>
         </div>

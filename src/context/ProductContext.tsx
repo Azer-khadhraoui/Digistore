@@ -14,6 +14,8 @@ export interface Product {
   author: string;
   sellerEmail?: string;
   createdAt: Date;
+  productFile?: string; // Fichier du produit en base64
+  productFileName?: string; // Nom original du fichier
 }
 
 interface ProductContextType {

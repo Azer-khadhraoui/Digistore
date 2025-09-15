@@ -102,15 +102,15 @@ const SellPage: React.FC = () => {
     try {
       // Validation des champs requis
       if (!formData.productTitle || !formData.productDescription || !formData.productCategory || 
-          !formData.productPrice || !formData.productImage || !formData.sellerName || 
-          !formData.sellerEmail) {
+          !formData.productPrice || !formData.productImage || !formData.productFile || 
+          !formData.sellerName || !formData.sellerEmail) {
         console.log('Validation failed - missing fields');
-        alert('Veuillez remplir tous les champs obligatoires.');
+        alert('Veuillez remplir tous les champs obligatoires et sélectionner les fichiers requis.');
         setIsSubmitting(false);
         return;
       }
 
-      console.log('Validation passed, converting image...');
+      console.log('Validation passed, converting files...');
 
       // Conversion de l'image en base64
       let imageUrl = 'https://via.placeholder.com/400x300?text=Image+Non+Disponible'; // Image par défaut
@@ -127,6 +127,23 @@ const SellPage: React.FC = () => {
         }
       }
 
+      // Conversion du fichier produit en base64
+      let productFileData = '';
+      let productFileName = '';
+      if (formData.productFile) {
+        try {
+          console.log('Starting product file conversion for:', formData.productFile.name);
+          productFileData = await fileToBase64(formData.productFile);
+          productFileName = formData.productFile.name;
+          console.log('Product file converted successfully, size:', productFileData.length);
+        } catch (error) {
+          console.error('Erreur lors de la conversion du fichier produit:', error);
+          alert('Erreur: Le fichier produit n\'a pas pu être traité. Veuillez réessayer avec un fichier plus petit.');
+          setIsSubmitting(false);
+          return;
+        }
+      }
+
       // Création du nouveau produit
       const newProduct = {
         title: formData.productTitle,
@@ -134,7 +151,9 @@ const SellPage: React.FC = () => {
         category: formData.productCategory,
         price: parseFloat(formData.productPrice),
         image: imageUrl,
-        author: formData.sellerName
+        author: formData.sellerName,
+        productFile: productFileData,
+        productFileName: productFileName
       };
 
       console.log('Adding product:', newProduct);
