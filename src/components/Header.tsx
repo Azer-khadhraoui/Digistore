@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Header.css';
 import logo from '../logo.png';
+import { useCart } from '../context/CartContext';
 
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { getTotalItems } = useCart();
 
   return (
     <header className="header">
@@ -22,6 +24,14 @@ const Header: React.FC = () => {
             <li><Link to="/">Accueil</Link></li>
             <li><Link to="/produits">Produits</Link></li>
             <li><Link to="/vendre">Vendre</Link></li>
+            <li>
+              <Link to="/panier" className="cart-link">
+                🛒 Panier
+                {getTotalItems() > 0 && (
+                  <span className="cart-badge">{getTotalItems()}</span>
+                )}
+              </Link>
+            </li>
           </ul>
         </nav>
 

@@ -1,15 +1,37 @@
 import React, { useState } from 'react';
 import './Products.css';
 import { useProducts, Product } from '../context/ProductContext';
+import { useCart } from '../context/CartContext';
+import { usePurchasedProducts } from '../context/PurchasedProductsContext';
+import ProductPreviewModal from './ProductPreviewModal';
 
 const Products: React.FC = () => {
   const { products } = useProducts();
+  const { addToCart, isInCart } = useCart();
+  const { isPurchased } = usePurchasedProducts();
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [sortBy, setSortBy] = useState('popular');
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   console.log('Products component: Current products count:', products.length);
   console.log('Products component: Products:', products);
+
+  const handleAddToCart = (product: Product) => {
+    addToCart(product);
+    alert(`${product.title} a été ajouté au panier !`);
+  };
+
+  const handlePreview = (product: Product) => {
+    setSelectedProduct(product);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedProduct(null);
+  };
 
   const categories = [
     { id: 'all', name: 'Tous les produits' },
@@ -109,10 +131,21 @@ const Products: React.FC = () => {
                 </div>
               )}
               
+              {isPurchased(product.id) && (
+                <div className="owned-indicator">
+                  ✅ Possédé
+                </div>
+              )}
+              
               <div className="product-image">
                 <img src={product.image} alt={product.title} />
                 <div className="product-overlay">
-                  <button className="btn-preview">Aperçu</button>
+                  <button 
+                    className="btn-preview"
+                    onClick={() => handlePreview(product)}
+                  >
+                    {isPurchased(product.id) ? '📥 Télécharger' : 'Aperçu'}
+                  </button>
                 </div>
               </div>
 
@@ -141,7 +174,14 @@ const Products: React.FC = () => {
                       <span className="original-price">{product.originalPrice}€</span>
                     )}
                   </div>
-                  <button className="btn-add-cart">Ajouter au panier</button>
+                  <button 
+                    className={`btn-add-cart ${isInCart(product.id) ? 'in-cart' : ''} ${isPurchased(product.id) ? 'owned' : ''}`}
+                    onClick={() => handleAddToCart(product)}
+                    disabled={isInCart(product.id) || isPurchased(product.id)}
+                  >
+                    {isPurchased(product.id) ? '✅ Possédé' : 
+                     isInCart(product.id) ? 'Dans le panier' : 'Ajouter au panier'}
+                  </button>
                 </div>
               </div>
             </div>
@@ -155,6 +195,14 @@ const Products: React.FC = () => {
           </div>
         )}
       </div>
+
+      {selectedProduct && (
+        <ProductPreviewModal
+          product={selectedProduct}
+          isOpen={isModalOpen}
+          onClose={closeModal}
+        />
+      )}
     </div>
   );
 };

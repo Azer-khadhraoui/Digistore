@@ -1,0 +1,377 @@
+.order-confirmation-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  padding: 2rem 0;
+}
+
+.confirmation-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.confirmation-header {
+  text-align: center;
+  background: white;
+  border-radius: 15px;
+  padding: 3rem 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.success-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+.confirmation-header h1 {
+  color: #27ae60;
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.confirmation-header p {
+  color: #7f8c8d;
+  font-size: 1.1rem;
+}
+
+.order-details {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.order-info,
+.customer-info {
+  background: white;
+  border-radius: 15px;
+  padding: 1.5rem;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.order-info h2,
+.customer-info h3 {
+  color: #2c3e50;
+  margin-bottom: 1.5rem;
+}
+
+.order-meta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.meta-label {
+  font-size: 0.9rem;
+  color: #7f8c8d;
+}
+
+.meta-value {
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.status-completed {
+  color: #27ae60 !important;
+}
+
+.customer-details p {
+  margin: 0.5rem 0;
+  color: #7f8c8d;
+}
+
+.customer-details p:first-child {
+  color: #2c3e50;
+}
+
+.order-items {
+  background: white;
+  border-radius: 15px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.order-items h3 {
+  color: #2c3e50;
+  margin-bottom: 1.5rem;
+}
+
+.confirmation-item {
+  display: grid;
+  grid-template-columns: 80px 1fr auto auto;
+  gap: 1rem;
+  align-items: center;
+  padding: 1rem;
+  border: 1px solid #ecf0f1;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  background: #fafafa;
+}
+
+.confirmation-item:last-child {
+  margin-bottom: 0;
+}
+
+.confirmation-item img {
+  width: 80px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.item-details h4 {
+  margin: 0 0 0.5rem 0;
+  color: #2c3e50;
+  font-size: 1rem;
+}
+
+.item-details p {
+  margin: 0.25rem 0;
+  font-size: 0.9rem;
+  color: #7f8c8d;
+}
+
+.item-price {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #2c3e50;
+  text-align: right;
+}
+
+.download-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-download {
+  background: linear-gradient(135deg, #3498db, #2980b9);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-download:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 3px 10px rgba(52, 152, 219, 0.4);
+}
+
+.download-info {
+  font-size: 0.8rem;
+  color: #27ae60;
+  font-weight: 500;
+}
+
+.next-steps {
+  background: white;
+  border-radius: 15px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.next-steps h3 {
+  color: #2c3e50;
+  margin-bottom: 1.5rem;
+}
+
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.step-card {
+  text-align: center;
+  padding: 1rem;
+  border: 1px solid #ecf0f1;
+  border-radius: 10px;
+  background: #f8f9fa;
+}
+
+.step-icon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.step-card h4 {
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
+
+.step-card p {
+  color: #7f8c8d;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.support-info {
+  background: white;
+  border-radius: 15px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.support-card h4 {
+  color: #2c3e50;
+  margin-bottom: 1rem;
+}
+
+.support-card p {
+  color: #7f8c8d;
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+
+.support-contacts {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.support-link {
+  color: #3498db;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.support-link:hover {
+  color: #2980b9;
+}
+
+.confirmation-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.btn-continue-shopping,
+.btn-home,
+.btn-print {
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.btn-continue-shopping {
+  background: linear-gradient(135deg, #3498db, #2980b9);
+  color: white;
+}
+
+.btn-continue-shopping:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+}
+
+.btn-home {
+  background: #ecf0f1;
+  color: #7f8c8d;
+}
+
+.btn-home:hover {
+  background: #d5dbdb;
+}
+
+.btn-print {
+  background: #f39c12;
+  color: white;
+}
+
+.btn-print:hover {
+  background: #e67e22;
+  transform: translateY(-2px);
+}
+
+.no-order {
+  text-align: center;
+  background: white;
+  border-radius: 15px;
+  padding: 3rem;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.no-order h2 {
+  color: #2c3e50;
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 768px) {
+  .order-details {
+    grid-template-columns: 1fr;
+  }
+  
+  .order-meta {
+    grid-template-columns: 1fr;
+  }
+  
+  .confirmation-item {
+    grid-template-columns: 60px 1fr;
+    gap: 0.5rem;
+  }
+  
+  .item-price,
+  .download-section {
+    grid-column: 1 / -1;
+    margin-top: 0.5rem;
+    text-align: left;
+  }
+  
+  .download-section {
+    flex-direction: row;
+    justify-content: flex-start;
+  }
+  
+  .steps-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .confirmation-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .support-contacts {
+    flex-direction: column;
+  }
+}
+
+@media print {
+  .order-confirmation-page {
+    background: white;
+  }
+  
+  .confirmation-actions {
+    display: none;
+  }
+  
+  .support-info {
+    display: none;
+  }
+  
+  .btn-download {
+    display: none;
+  }
+}
