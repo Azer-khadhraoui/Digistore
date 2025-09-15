@@ -283,7 +283,7 @@ const SellPage: React.FC = () => {
               </div>
 
               <div className="form-group">
-                <label htmlFor="productPrice">Prix (€) *</label>
+                <label htmlFor="productPrice">Prix (TND) *</label>
                 <input
                   type="number"
                   id="productPrice"

@@ -95,8 +95,8 @@ const CartPage: React.FC = () => {
                 </div>
 
                 <div className="cart-item-price">
-                  <div className="unit-price">{formatPrice(item.product.price)}€ / unité</div>
-                  <div className="total-price">{formatPrice(item.product.price * item.quantity)}€</div>
+                  <div className="unit-price">{formatPrice(item.product.price)} TND / unité</div>
+                  <div className="total-price">{formatPrice(item.product.price * item.quantity)} TND</div>
                 </div>
 
                 <button 
@@ -116,17 +116,17 @@ const CartPage: React.FC = () => {
               
               <div className="summary-line">
                 <span>Sous-total ({getTotalItems()} articles)</span>
-                <span>{formatPrice(getTotalPrice())}€</span>
+                <span>{formatPrice(getTotalPrice())} TND</span>
               </div>
               
               <div className="summary-line">
                 <span>Frais de traitement</span>
-                <span>0.00€</span>
+                <span>0.00 TND</span>
               </div>
               
               <div className="summary-line total">
                 <span>Total</span>
-                <span>{formatPrice(getTotalPrice())}€</span>
+                <span>{formatPrice(getTotalPrice())} TND</span>
               </div>
 
               <Link to="/checkout" className="btn-checkout">

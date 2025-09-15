@@ -39,7 +39,7 @@ const CheckoutPage: React.FC = () => {
     address: '',
     city: '',
     postalCode: '',
-    country: 'France'
+    country: 'Tunisie'
   });
 
   const [paymentInfo, setPaymentInfo] = useState<PaymentInfo>({
@@ -370,7 +370,7 @@ const CheckoutPage: React.FC = () => {
                   disabled={isProcessing}
                   className="btn-process-payment"
                 >
-                  {isProcessing ? 'Traitement en cours...' : `Payer ${formatPrice(getTotalPrice())}€`}
+                  {isProcessing ? 'Traitement en cours...' : `Payer ${formatPrice(getTotalPrice())} TND`}
                 </button>
               </div>
             )}
@@ -406,7 +406,7 @@ const CheckoutPage: React.FC = () => {
                   <div className="order-item-details">
                     <h4>{item.product.title}</h4>
                     <p>Quantité: {item.quantity}</p>
-                    <p className="order-item-price">{formatPrice(item.product.price * item.quantity)}€</p>
+                    <p className="order-item-price">{formatPrice(item.product.price * item.quantity)} TND</p>
                   </div>
                 </div>
               ))}
@@ -415,7 +415,7 @@ const CheckoutPage: React.FC = () => {
             <div className="order-total">
               <div className="total-line">
                 <span>Total</span>
-                <span>{formatPrice(getTotalPrice())}€</span>
+                <span>{formatPrice(getTotalPrice())} TND</span>
               </div>
             </div>
           </div>

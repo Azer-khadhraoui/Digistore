@@ -52,7 +52,7 @@ const OrderConfirmationPage: React.FC = () => {
               </div>
               <div className="meta-item">
                 <span className="meta-label">Total:</span>
-                <span className="meta-value">{order.total.toFixed(2)}€</span>
+                <span className="meta-value">{order.total.toFixed(2)} TND</span>
               </div>
               <div className="meta-item">
                 <span className="meta-label">Statut:</span>
@@ -86,7 +86,7 @@ const OrderConfirmationPage: React.FC = () => {
                   <p>Quantité: {item.quantity}</p>
                 </div>
                 <div className="item-price">
-                  {(item.product.price * item.quantity).toFixed(2)}€
+                  {(item.product.price * item.quantity).toFixed(2)} TND
                 </div>
                 <div className="download-section">
                   <button className="btn-download">

@@ -58,7 +58,7 @@ Informations du produit:
 - Titre: ${product.title}
 - Auteur: ${product.author}
 - Catégorie: ${product.category}
-- Prix: ${product.price}€
+- Prix: ${product.price} TND
 - Note: ${product.rating}/5 (${product.reviewCount} avis)
 
 Description:
@@ -149,9 +149,9 @@ Merci d'avoir choisi DigiStore !
             </div>
 
             <div className="product-price">
-              <span className="current-price">{product.price}€</span>
+              <span className="current-price">{product.price} TND</span>
               {product.originalPrice && (
-                <span className="original-price">{product.originalPrice}€</span>
+                <span className="original-price">{product.originalPrice} TND</span>
               )}
             </div>
 
